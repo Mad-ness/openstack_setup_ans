@@ -1,0 +1,41 @@
+- hosts: all
+  roles:
+      - linux-basic
+      - openstack-common
+  tags:
+  - from_scratch
+
+
+- hosts: controller-nodes
+  pre_tasks:
+  - include: tasks/os-env.yml
+  roles:
+  - mariadb
+  - rabbitmq
+  - memcached
+  - openstack-keystone 
+  - openstack-glance
+  - openstack-nova
+  - openstack-horizon
+  tags:
+  - controller
+
+- hosts: network-nodes
+  pre_tasks:
+  - include: tasks/os-env.yml
+  roles:
+  - openstack-neutron
+  tags:
+  - network
+
+
+- hosts: compute-nodes
+  pre_tasks:
+  - include: tasks/os-env.yml
+  roles:
+  - openstack-nova-compute
+  - openstack-neutron-compute
+  tags:
+  - network
+  - compute
+

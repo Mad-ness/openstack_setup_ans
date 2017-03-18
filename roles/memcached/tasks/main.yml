@@ -1,0 +1,20 @@
+---
+- name: Install required packages
+  apt: name={{ item }} state=latest
+  with_items:
+  - memcached
+  - python-memcache
+
+
+- name: Modify config file
+  lineinfile:
+    dest: /etc/memcached.conf
+    line: '-l 0.0.0.0'
+    state: present
+  notify: 
+  - restart_memcached
+
+
+- name: Ensure memcached is started and autostarted
+  service: name=memcached state=started enabled=on
+

@@ -1,0 +1,24 @@
+---
+
+- name: Install required packages for repositories
+  apt: name=software-properties-common state=latest
+
+
+#- name: Add required repositories
+#  apt_repository: repo='cloud-archive:ocata'
+
+
+- name: Add openstack release-specific {{ openstack_release_name }} repository
+  apt_repository:
+    repo: 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main'
+    state: present 
+    filename: cloudarchive-ocata.list
+    update_cache: yes
+  register: repo_added
+
+
+- name: Update repo keys (if neccessary)
+  shell: 'apt-key update && apt-get update'
+  when: repo_added|changed
+
+

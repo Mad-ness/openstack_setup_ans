@@ -1,0 +1,9 @@
+--- 
+- name: Create mysql database '{{ nova.database.name }}'
+  include: ../../../tasks/os-mysql.yml os_dbdata='{{ nova.database }}'
+
+
+- name: Create mysql database '{{ nova.database_api.name }}'
+  include: ../../../tasks/os-mysql.yml os_dbdata='{{ nova.database_api }}'
+
+

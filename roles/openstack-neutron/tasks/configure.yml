@@ -1,0 +1,10 @@
+- include: ../../../tasks/os-add-user.yml os_service_name='{{ os_services.openstack.name }}' os_domain_name='{{ os_services.openstack.domain }}' os_username='{{ neutron.service.username }}' os_password='{{ neutron.service.password }}' 
+
+
+- include: ../../../tasks/os-add-role2user.yml os_service_name='{{ os_services.openstack.name }}' os_domain_name='{{ os_services.openstack.domain }}' os_username='{{ neutron.service.username }}' os_role_name='{{ item }}'
+  with_items: "{{ neutron.service.userroles }}"
+
+
+- include: ../../../tasks/os-add-service.yml os_service_details='{{ neutron.service }}'
+- include: ../../../tasks/os-add-endpoint.yml os_endpoint_details='{{ neutron.service }}'
+

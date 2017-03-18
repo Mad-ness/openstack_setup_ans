@@ -1,0 +1,28 @@
+---
+- name: Configure Nova service
+  template: 
+    src: nova.conf.j2
+    dest: '/etc/nova/nova.conf'
+    owner: nova 
+    group: nova 
+    mode: 0640
+  notify:
+  - restart_nova_controller
+
+
+- name: Ensure Nova is running and autobootable (controller)
+  service: name='{{ item }}' state=started enabled=on
+  with_items: 
+  - nova-api
+  - nova-consoleauth
+  - nova-scheduler
+  - nova-conductor
+  - nova-novncproxy
+
+
+- name: Populate compute database
+  shell: '{{ item }}'
+  with_items:
+  - 'su -s /bin/sh -c "nova-manage api_db sync" nova'
+  - 'su -s /bin/sh -c "nova-manage db sync" nova'
+

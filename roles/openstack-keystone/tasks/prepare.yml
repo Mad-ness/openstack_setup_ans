@@ -1,0 +1,11 @@
+---
+- name: Create the state_files directory
+  file:
+    path: '{{ state_files_dir }}'
+    state: directory
+    mode: 0640
+
+- name: Create mysql database '{{ keystone.database.name }}'
+  include: ../../../tasks/os-mysql.yml os_dbdata='{{ keystone.database }}'
+#os_database_name='{{ keystone.database.name }}'
+

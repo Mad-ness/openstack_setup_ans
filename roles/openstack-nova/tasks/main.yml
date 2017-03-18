@@ -1,0 +1,6 @@
+---
+- include: dbconf.yml
+- include: configure.yml
+- include: install.yml
+- include: novacfg.yml
+

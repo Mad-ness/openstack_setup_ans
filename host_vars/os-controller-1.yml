@@ -1,0 +1,7 @@
+system_network_interfaces:
+    - { ifname: eth0, hwaddr: "52:54:00:4b:50:14", role: management   }
+    - { ifname: eth1, hwaddr: "52:54:00:bf:3d:cd", role: api          }
+    - { ifname: eth2, hwaddr: "52:54:00:ca:a0:4a", role: external     }
+    - { ifname: eth3, hwaddr: "52:54:00:c6:02:ad", role: internal     }
+    - { ifname: eth4, hwaddr: "52:54:00:a8:6d:8d", role: tenant       }
+

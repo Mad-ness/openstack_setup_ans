@@ -1,0 +1,33 @@
+--- 
+#- name: Gather facts
+#  action: setup
+
+
+- name: Construct environment variables
+  set_fact:
+    keystone_admin_url: '{{ keystone.service.proto }}://{{ keystone.service.dnsname }}.{{ internal_domain_name }}:{{ keystone.service.admin_port }}'
+    keystone_internal_url: '{{ keystone.service.proto }}://{{ keystone.service.dnsname }}.{{ internal_domain_name }}:{{ keystone.service.admin_port }}'
+    keystone_public_url: '{{ keystone.service.proto }}://{{ keystone.service.dnsname }}.{{ api_domain_name }}:{{ keystone.service.public_port }}'
+
+    messagebus_int_hostname: '{{ rabbitmq_hostname }}.{{ internal_domain_name }}'
+    database_int_hostname: '{{ database_hostname }}.{{ internal_domain_name }}'
+
+    glance_int_hostname: '{{ glance.service.dnsname }}.{{ internal_domain_name }}'
+    glance_api_hostname: '{{ glance.service.dnsname }}.{{ api_domain_name }}'
+
+    nova_int_hostname: '{{ nova.service.dnsname }}.{{ internal_domain_name }}'
+    nova_api_hostname: '{{ nova.service.dnsname }}.{{ api_domain_name }}'
+
+    memcached_int_hostname: '{{ memcached_hostname }}.{{ internal_domain_name }}'
+
+    neutron_api_hostname: '{{ neutron.service.dnsname }}.{{ api_domain_name }}'
+    neutron_int_hostname: '{{ neutron.service.dnsname }}.{{ internal_domain_name }}'
+
+    neutron_admin_url: '{{ neutron.service.proto }}://{{ neutron.service.dnsname }}.{{ internal_domain_name }}:{{ neutron.service.admin_port }}'
+    neutron_internal_url: '{{ neutron.service.proto }}://{{ neutron.service.dnsname }}.{{ internal_domain_name }}:{{ neutron.service.admin_port }}'
+    neutron_public_url: '{{ neutron.service.proto }}://{{ neutron.service.dnsname }}.{{ api_domain_name }}:{{ neutron.service.public_port }}'
+
+    nova_admin_url:    '{{ nova.service.proto }}://{{ nova.service.dnsname }}.{{ internal_domain_name }}:{{ nova.service.admin_port }}'
+    nova_internal_url: '{{ nova.service.proto }}://{{ nova.service.dnsname }}.{{ internal_domain_name }}:{{ nova.service.admin_port }}'
+    nova_public_url:   '{{ nova.service.proto }}://{{ nova.service.dnsname }}.{{ api_domain_name }}:{{ nova.service.public_port }}'
+    

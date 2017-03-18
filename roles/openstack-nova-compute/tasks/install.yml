@@ -1,0 +1,4 @@
+---
+- name: Install required packages (compute)
+  apt: name=nova-compute state=latest allow_unauthenticated=yes
+

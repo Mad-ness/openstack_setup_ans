@@ -1,0 +1,10 @@
+---
+- name: Install required packages (controller)
+  apt: name='{{ item }}' state=latest
+  with_items:
+  - nova-api
+  - nova-conductor
+  - nova-consoleauth
+  - nova-novncproxy
+  - nova-scheduler
+

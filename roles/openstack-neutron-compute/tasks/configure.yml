@@ -1,0 +1,14 @@
+---
+- name: Configure neutron-compute agent
+  template:
+    src: ../../openstack-neutron/templates/{{ item.src }}.j2
+    dest: /etc/neutron/{{ item.dest }}
+    owner: neutron
+    group: neutron
+    mode: 0640
+  with_items:
+  - { src: neutron.conf, dest: neutron.conf }
+  - { src: linuxbridge_agent.ini, dest: plugins/ml2/linuxbridge_agent.ini }
+  notify:
+  - restart_neutron_agent
+

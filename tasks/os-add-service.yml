@@ -1,0 +1,11 @@
+---
+- name: Add an OpenStack project <{{ os_service_details.name }}>
+  vars:
+    state_file: '{{ state_files_dir }}/add_service.sh.state'
+  script: |
+    ../../scripts/add_service.sh '{{ state_file }}' '{{ os_env_file }}' '{{ os_service_details.name }}' '{{ os_service_details.desc }}' '{{ os_service_details.type }}'
+  args:
+    creates: '{{ state_file }}'
+  register: exec_result
+
+

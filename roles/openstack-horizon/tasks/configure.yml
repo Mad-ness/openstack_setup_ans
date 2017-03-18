@@ -1,0 +1,15 @@
+---
+- name: Configure Horizon
+  template:
+    src: local_settings.py.j2
+    dest: /etc/openstack-dashboard/local_settings.py
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+  - restart_apache
+
+
+- name: Fix some permissions
+  file: path=/var/lib/openstack-dashboard/secret_key mode=0660
+

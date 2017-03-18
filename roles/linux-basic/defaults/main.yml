@@ -1,0 +1,3 @@
+interfaces_rootdir: /etc/network
+interfaces_configs: /etc/network/interfaces.d
+

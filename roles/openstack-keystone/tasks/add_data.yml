@@ -1,0 +1,8 @@
+---
+- include: ../../../tasks/os-add-project.yml os_service_name='{{ os_services.openstack.name }}' os_domain_name='{{ os_services.openstack.domain }}' os_service_desc='{{ os_services.openstack.desc }}'
+
+
+- include: ../../../tasks/os-add-user.yml os_service_name='{{ os_services.openstack.name }}' os_domain_name='{{ os_services.openstack.domain }}' os_username='{{ os_users.user1.username }}' os_password='{{ os_users.user1.password }}'
+
+
+# - include: ../../../tasks/os-add-role.yml os_domain_name='{{ os_services.openstack.domain }}' os_role_name='{{ item }}'

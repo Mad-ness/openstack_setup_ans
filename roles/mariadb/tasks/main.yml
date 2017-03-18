@@ -1,0 +1,36 @@
+---
+- name: Install required packages
+  apt: name={{ item }} state=latest
+  with_items: 
+  - mariadb-server
+  - python-pymysql
+  - python-mysqldb
+
+
+- name: Configure mysql database
+  template:
+    src: mysql.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/99-openstack.cnf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+  - restart_mysql
+
+
+- name: Ensure mysqld is enabled and autorunnable
+  service: name=mysql state=started enabled=on
+
+
+- name: Create administrative account
+  mysql_user: 
+    host: '{{ item }}'
+    user: '{{ service.mysql.admin_user }}'
+    password: '{{ service.mysql.admin_pass }}'
+    priv: '*.*:ALL,GRANT'
+    update_password: always
+  with_items:
+    - "localhost"
+#    - "{{ hostvars[groups['controller-nodes'][0]].inventory_hostname }}"
+    - "{{ hostvars[groups['controller-nodes'][0]].ansible_fqdn }}"
+

@@ -1,0 +1,11 @@
+---
+- name: Add an OpenStack role to the user <{{ os_username }}>
+  vars:
+    state_file: '{{ state_files_dir }}/add_role2user.sh.state'
+  script: |
+    ../../scripts/add_role2user.sh '{{ state_file }}' '{{ os_env_file }}' '{{ os_domain_name }}' '{{ os_service_name }}' '{{ os_username }}' '{{ os_role_name }}'
+  args:
+    creates: '{{ state_file }}'
+  register: exec_result
+
+

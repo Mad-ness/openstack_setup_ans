@@ -1,0 +1,56 @@
+---
+- name: Configure keystone.conf
+  template: 
+    src: keystone.conf.j2
+    dest: /etc/keystone/keystone.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+  - restart_keystone
+
+
+- name: Populate keystone database
+  shell: su -s /bin/sh -c "keystone-manage db_sync" keystone
+  args:
+    creates: '{{ state_files_dir }}/keystone-db_sync.state'
+  register: result_shellcmd
+
+
+- name: Initizalize fernet key repositories
+  shell: "{{ item.cmd }}"
+  args:
+    creates: "{{ state_files_dir }}/{{ item.state_file }}.state"
+  with_items:
+  - { cmd: "keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone", state_file: keystone_fernet_setup }
+  - { cmd: "keystone-manage credential_setup --keystone-user keystone --keystone-group keystone", state_file: keystone_fernet_credsetup }
+  register: result_shellcmd
+
+
+- name: Bootstrap administrative account
+  shell: |
+    keystone-manage bootstrap --bootstrap-password '{{ os_users.system.password }}' \
+    --bootstrap-admin-url http://{{ keystone.service.dnsname }}.{{ internal_domain_name }}:{{ keystone.service.admin_port }}/v3/ \
+    --bootstrap-internal-url http://{{ keystone.service.dnsname }}.{{ internal_domain_name }}:{{ keystone.service.admin_port }}/v3/ \
+    --bootstrap-public-url http://{{ keystone.service.dnsname }}.{{ api_domain_name }}:{{ keystone.service.public_port }}/v3/ \
+    --bootstrap-region-id {{ region_name }}
+
+
+- name: Configure the Apache HTTP server
+  lineinfile: 
+    dest: /etc/apache2/apache2.conf
+    line: 'ServerName {{ keystone.service.dnsname }}'
+    state: present
+  register: restart_apache
+
+
+- meta: flush_handlers
+
+
+- name: Remove not needed local database
+  file:
+    path: /var/lib/keystone/keystone.db
+    state: absent
+- include: ../../tasks/os-add-project.yml os_service_name='{{ os_services.openstack.name }}' os_domain_name='{{ os_services.openstack.domain }}' os_service_desc='{{ os_services.openstack.desc }}'
+
+

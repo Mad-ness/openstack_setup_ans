@@ -1,0 +1,25 @@
+---
+- name: Configure Glance service
+  template: 
+    src: '{{ item }}.j2'
+    dest: '/etc/glance/{{ item }}'
+    owner: glance
+    group: glance
+    mode: 0640
+  with_items:
+  - glance-api.conf
+  - glance-registry.conf
+  notify:
+  - restart_glance
+
+
+- name: Ensure Glance is running and autobootable
+  service: name='{{ item }}' state=started enabled=on
+  with_items: 
+  - glance-api
+  - glance-registry
+
+
+- name: Populate image database
+  shell: 'su -s /bin/sh -c "glance-manage db_sync" glance'
+

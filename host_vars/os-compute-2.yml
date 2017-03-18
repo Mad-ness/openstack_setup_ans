@@ -1,0 +1,5 @@
+system_network_interfaces:
+    - { ifname: eth0, hwaddr: "52:54:00:90:54:5e", role: management   }
+    - { ifname: eth1, hwaddr: "52:54:00:f1:ee:26", role: internal     }
+    - { ifname: eth2, hwaddr: "52:54:00:c2:de:dd", role: tenant       }
+

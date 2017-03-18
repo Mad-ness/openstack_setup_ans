@@ -1,0 +1,19 @@
+---
+- set_fact:
+    svc: '{{ os_endpoint_details }}'
+
+
+- set_fact:
+    admin_url: '{{ svc.proto }}://{{ svc.dnsname }}.{{ internal_domain_name }}:{{ svc.admin_port }}{{ svc.endpoint_ending.admin_url|default("") }}'
+    internal_url: '{{ svc.proto }}://{{ svc.dnsname }}.{{ internal_domain_name }}:{{ svc.admin_port }}{{ svc.endpoint_ending.internal_url|default("") }}'
+    public_url: '{{ svc.proto }}://{{ svc.dnsname }}.{{ api_domain_name }}:{{ svc.public_port }}{{ svc.endpoint_ending.public_url|default("") }}'
+
+
+- name: Add an OpenStack service's endpoint <{{ os_endpoint_details.name }}/{{ os_endpoint_details.type }}>
+  vars:
+    state_file: '{{ state_files_dir }}/add_service.sh.state'
+  script: ../../scripts/add_endpoint.sh '{{ state_file }}' '{{ os_env_file }}' '{{ region_name }}' '{{ svc.type }}' '{{ admin_url }}' '{{ internal_url }}' '{{ public_url }}'
+  args:
+    creates: '{{ state_file }}'
+  register: exec_result
+

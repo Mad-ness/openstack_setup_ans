@@ -1,0 +1,11 @@
+- include: ../../../tasks/os-add-user.yml os_service_name='{{ os_services.openstack.name }}' os_domain_name='{{ os_services.openstack.domain }}' os_username='{{ glance.service.username }}' os_password='{{ glance.service.password }}' 
+
+
+- include: ../../../tasks/os-add-role2user.yml os_service_name='{{ os_services.openstack.name }}' os_domain_name='{{ os_services.openstack.domain }}' os_username='{{ glance.service.username }}' os_role_name='{{ item }}'
+  with_items: "{{ glance.service.userroles }}"
+
+
+- include: ../../../tasks/os-add-service.yml os_service_details='{{ glance.service }}'
+- include: ../../../tasks/os-add-endpoint.yml os_endpoint_details='{{ glance.service }}'
+
+

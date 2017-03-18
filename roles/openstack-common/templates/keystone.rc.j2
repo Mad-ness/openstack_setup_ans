@@ -1,0 +1,11 @@
+export OS_USERNAME={{ os_users.system.username }}
+export OS_PASSWORD={{ os_users.system.password }}
+export OS_PROJECT_NAME={{ os_users.system.project }}
+export OS_USER_DOMAIN_NAME={{ os_services.openstack.domain }}
+export OS_PROJECT_DOMAIN_NAME={{ os_services.openstack.domain }}
+export OS_AUTH_URL=http://{{ keystone.service.dnsname }}.{{ api_domain_name }}:{{ keystone.service.public_port }}/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+
+alias grep_nocom="grep -Ev '^\s*($|#)'"
+

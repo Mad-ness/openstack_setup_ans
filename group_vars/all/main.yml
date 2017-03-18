@@ -1,0 +1,166 @@
+---
+
+interfaces_roles_linux: [ management ]
+interfaces_roles_cloud: [ internal, api, external, tenant ]
+
+
+network_management_netmask: 255.255.255.0
+network_management_netaddr: 192.168.168.0
+network_management_domain: airlan.local
+
+network_api_netmask: 255.255.255.0
+# network_api_netaddr: 10.255.1.0
+network_api_domain: api.os-cloud
+
+network_internal_netmask: 255.255.255.0
+network_internal_netaddr: 10.255.2.0
+network_internal_domain: int.os-cloud
+
+      
+openstack_release_name: ocata
+
+rabbitmq_username: openstack
+rabbitmq_password: OpenStack123
+rabbitmq_hostname: messagebus
+
+database_hostname: database
+memcached_hostname: memcached
+memcached_port: 11211
+
+
+api_domain_name: api.os-cloud
+internal_domain_name: int.os-cloud
+region_name: RegionOne
+os_env_file: ~/.keystone.rc
+state_files_dir: ~/.openstack-install
+
+neutron:
+    database: 
+        type: mysql
+        driver: pymysql
+        name: os_neutron
+        username: acc_neutron
+        password: LH4wrIEL2zBUWA==
+    service:
+        type: network
+        name: neutron
+        desc: OpenStack Networking
+        username: neutron
+        password: AdleS/bD4bbZcg==
+        userroles: [ admin, ]
+        admin_port: 9695
+        public_port: 9695
+        dnsname: network
+        proto: http
+        endpoint_ending:
+            admin_url: ''
+            internal_url: ''
+            public_url: ''
+    metadata_shared_secret: eYjoiNoZN4dzLg==
+
+nova:
+    database:
+        type: mysql
+        driver: pymysql
+        name: os_nova
+        username: acc_nova
+        password: CPaUH1HIde11GQ==
+    database_api:
+        type: mysql
+        driver: pymysql
+        name: os_nova_api
+        username: acc_nova_api
+        password: 3icACqXd9yzJQQ==
+    service:
+        type: compute
+        name: nova
+        desc: OpenStack Compute Service
+        username: nova
+        password: YoF4q4regAR/Eg==
+        userroles: [ admin, ]
+        admin_port: 8774
+        public_port: 8774
+        dnsname: compute
+        proto: http
+        endpoint_ending:
+            admin_url: /v2.1/%(tenant_id)s
+            internal_url: /v2.1/%(tenant_id)s
+            public_url: /v2.1/%(tenant_id)s
+
+
+# openssl rand -base64 10
+
+glance:
+    database:
+        type: mysql
+        driver: pymysql
+        name: os_glance
+        username: acc_glance
+        password: d2b5c7a7a7a515eeffc6
+    service:
+        type: image 
+        name: glance
+        desc: Image Service
+        username: glance
+        password: 23245a7e8ed41f678d53
+        userroles: [ admin, ]
+        admin_port: 9292
+        public_port: 9292
+        dnsname: image
+        proto: http
+        endpoint_ending:
+            admin_url: ''
+            internal_url: ''
+            public_url: ''
+
+
+keystone:
+    database:
+        type: mysql
+        driver: pymysql
+        name: os_keystone
+        username: acc_keystone
+        password: 1257476eed5bd7af7ac1
+    service:
+        type: identity 
+        name: keystone
+        desc: Identity Service
+        username: keystone
+        password: e727a5771771df657258
+        admin_port: 35357
+        public_port: 5000
+        dnsname: identity
+        proto: http
+        endpoint_ending:
+            admin_url: ''
+            internal_url: ''
+            public_url: ''
+
+
+
+
+os_services:
+    openstack: 
+        name: service
+        desc: Service Project
+        domain: default
+
+os_users:
+    system:
+        username: admin
+        password: 29c28da0aef97e330367
+        project:  admin
+        roles: []
+    user1:
+        username: testuser
+        password: 94388d4c27cc20b62911
+        project: service
+        roles: [ list, ]
+        
+
+service:
+    mysql:
+        admin_user: admin
+        admin_pass: cadda7b230db7359bead
+
+

@@ -1,0 +1,18 @@
+[all:children]
+controller-nodes
+compute-nodes
+network-nodes
+
+[all:vars]
+ansible_user = root
+
+[controller-nodes]
+os-controller-1 hostname_new=os-cloud
+
+[network-nodes]
+os-controller-1
+
+[compute-nodes]
+os-compute-1    hostname_new=os-compute-1
+os-compute-2    hostname_new=os-compute-2
+

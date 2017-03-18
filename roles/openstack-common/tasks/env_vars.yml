@@ -1,0 +1,7 @@
+---
+- name: Populate shell environment file
+  template:
+    src: keystone.rc.j2
+    dest: '{{ os_env_file }}'
+    mode: 0640
+

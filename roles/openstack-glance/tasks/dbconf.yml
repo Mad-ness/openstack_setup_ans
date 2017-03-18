@@ -1,0 +1,4 @@
+- name: Create mysql database '{{ glance.database.name }}'
+  include: ../../../tasks/os-mysql.yml os_dbdata='{{ glance.database }}' 
+#os_database_name='{{ glance.database.name }}'
+

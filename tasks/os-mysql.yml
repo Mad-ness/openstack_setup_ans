@@ -1,0 +1,30 @@
+---
+- name: Install required packages
+  apt: name=python-mysqldb state=installed
+
+
+- name: Create mysql database {{ os_dbdata.name }}
+  mysql_db: 
+    login_host: '{{ hostvars[groups["controller-nodes"][0]].ansible_fqdn }}'
+    login_user: '{{ service.mysql.admin_user }}'
+    login_password: '{{ service.mysql.admin_pass }}'
+    name: '{{ os_dbdata.name }}'
+    state: present
+
+
+- name: Create mysql account {{ os_dbdata.username }}
+  mysql_user: 
+    login_host: '{{ hostvars[groups["controller-nodes"][0]].ansible_fqdn }}'
+    login_user: '{{ service.mysql.admin_user }}'
+    login_password: '{{ service.mysql.admin_pass }}'
+    name: '{{ os_dbdata.username }}'
+    password: '{{ os_dbdata.password }}'
+    host: '{{ item }}'
+    priv: '{{ os_dbdata.name }}.*:ALL'
+  with_items:
+  - 'localhost'
+  - '%'
+#  - '{{ hostvars[groups["controller-nodes"][0]].ansible_hostname }}'
+  - '{{ hostvars[groups["controller-nodes"][0]].ansible_fqdn }}'
+#  - '{{ hostvars[groups["controller-nodes"][0]].inventory_hostname }}'
+

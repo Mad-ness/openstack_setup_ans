@@ -1,0 +1,6 @@
+--- 
+- name: Install required packages
+  apt: name=neutron-linuxbridge-agent state=latest allow_unauthenticated=yes
+
+
+

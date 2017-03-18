@@ -1,0 +1,7 @@
+---
+- include: install_ntp.yml
+- include: install_repos.yml
+#- include: install_os_client.yml
+- include: install_requirements.yml
+- include: env_vars.yml
+

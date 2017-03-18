@@ -1,0 +1,11 @@
+---
+- name: Add an OpenStack user <{{ os_username }}>
+  vars:
+    state_file: '{{ state_files_dir }}/add_user.sh.state'
+  script: |
+    ../../scripts/add_user.sh '{{ state_file }}' '{{ os_env_file }}' '{{ os_service_name }}' '{{ os_domain_name }}' '{{ os_username }}' '{{ os_password }}'
+  args:
+    creates: '{{ state_file }}'
+  register: exec_result
+
+

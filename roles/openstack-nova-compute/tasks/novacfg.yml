@@ -1,0 +1,17 @@
+---
+- name: Configure Nova service
+  template: 
+    src: '../../openstack-nova/templates/nova.conf.j2'
+    dest: '/etc/nova/nova.conf'
+    owner: nova 
+    group: nova 
+    mode: 0640
+  notify:
+  - restart_nova_compute
+
+
+- name: Ensure Nova is running and autobootable (compute)
+  service: name='{{ item }}' state=started enabled=on
+  with_items: 
+  - nova-compute
+

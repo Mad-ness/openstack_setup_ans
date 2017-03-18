@@ -1,0 +1,4 @@
+--- 
+- name: Create mysql database '{{ neutron.database.name }}'
+  include: ../../../tasks/os-mysql.yml os_dbdata='{{ neutron.database }}'
+

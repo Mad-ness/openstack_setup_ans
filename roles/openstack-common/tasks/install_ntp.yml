@@ -1,0 +1,34 @@
+---
+- name: Install chrony
+  apt: 
+    name: chrony
+    dpkg_options: no
+    state: latest
+
+
+- name: Ensure chrony is enabled
+  service: name=chrony enabled=on
+
+
+- name: Configure chrony service (applicable only on the controllers)
+  lineinfile: 
+    dest: /etc/chrony/chrony.conf
+    line: 'allow {{ network_internal_netaddr }}/{{ network_internal_netmask }}'
+  when: "{{ inventory_hostname in groups['controller-nodes'] }}"
+  notify: 
+  - restart_chrony
+
+
+- name: Configure chrony service (applicable only on not the controllers)
+  lineinfile: 
+    dest: /etc/chrony/chrony.conf
+    line: 'server {{ hostvars[item].inventory_hostname }}.{{ internal_domain_name }} iburst'
+  when: "{{ inventory_hostname not in groups['controller-nodes'] }}"
+  with_items: "{{ groups['controller-nodes'] }}"
+  notify: 
+  - restart_chrony
+
+
+- name: Start chrony service
+  service: name=chrony state=started
+

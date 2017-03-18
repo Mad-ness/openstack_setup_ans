@@ -1,0 +1,7 @@
+---
+- include: prepare.yml
+- include: install.yml
+- include: install_os_client.yml
+- include: configure.yml
+- include: add_data.yml
+

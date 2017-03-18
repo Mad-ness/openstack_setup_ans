@@ -1,0 +1,2 @@
+system_interfaces_roles: [ management, external, tenant, internal ]
+
