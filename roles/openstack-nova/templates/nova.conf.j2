@@ -1739,7 +1739,7 @@ dhcpbridge=/usr/bin/nova-dhcpbridge
 #  (port value)
 # Minimum value: 0
 # Maximum value: 65535
-#metadata_port=8775
+metadata_port={{ metadata_port }}
 
 #
 # This expression, if defined, will select any matching iptables rules and place
@@ -2675,7 +2675,11 @@ enabled_apis=osapi_compute,metadata
 # * None (default value)
 #  (integer value)
 # Minimum value: 1
-#osapi_compute_workers=<None>
+{% if number_workers_osapi_compute|int > 0 %}
+osapi_compute_workers={{ number_workers_osapi_compute }}
+{% else %}
+osapi_compute_workers=<None>
+{% endif %}
 
 #
 # IP address on which the metadata API will listen.
@@ -2711,6 +2715,12 @@ enabled_apis=osapi_compute,metadata
 #  (integer value)
 # Minimum value: 1
 #metadata_workers=<None>
+{% if number_workers_metadata|int > 0 %}
+metadata_workers={{ number_workers_metadata }}
+{% else %}
+metadata_workers=<None>
+{% endif %}
+
 
 # Full class name for the Manager for network (string value)
 # Allowed values: nova.network.manager.FlatManager, nova.network.manager.FlatDHCPManager, nova.network.manager.VlanManager
@@ -4190,6 +4200,13 @@ enable=False
 # number of CPUs available.
 #  (integer value)
 #workers=<None>
+{% if number_workers_conductor|int > 0 %}
+workers={{ number_workers_conductor }}
+{% else %}
+workers=<None>
+{% endif %}
+
+
 
 
 [console]
