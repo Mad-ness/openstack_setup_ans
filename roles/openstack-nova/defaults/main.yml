@@ -1,0 +1,8 @@
+---
+
+number_workers_osapi_compute: 1
+number_workers_metadata: 1
+number_workers_conductor: 1
+
+metadata_port: 8775
+

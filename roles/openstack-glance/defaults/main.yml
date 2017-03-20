@@ -1,0 +1,4 @@
+---
+number_workers_glance: 1
+number_workers_max: 2
+number_workers_registry: 1

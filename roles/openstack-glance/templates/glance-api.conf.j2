@@ -731,7 +731,7 @@
 #
 #  (integer value)
 # Minimum value: 0
-#workers = <None>
+workers = {{ number_workers_glance }}
 
 #
 # Maximum line size of message headers.
@@ -4551,6 +4551,7 @@ flavor = keystone
 # Minimum value: 1
 # Deprecated group/name - [task]/eventlet_executor_pool_size
 #max_workers = 10
+max_workers = {{ number_workers_max }}
 
 #
 # Set the desired image conversion format.
